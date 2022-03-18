@@ -1,0 +1,16 @@
+* {
+    font-size: 16px;
+}
+
+body {
+    background-color: #e9fce9;
+}
+
+input:focus, input:hover {
+    border: 1px solid rgb(206, 208, 217) !important;
+    outline: none;
+}
+
+.input_font {
+    font-family: 'Fira Code', monospace;
+}

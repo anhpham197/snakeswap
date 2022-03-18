@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/snake-favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Merriweather:wght@300&family=MuseoModerno:wght@500&family=Nunito:wght@200&display=swap"
+        rel="stylesheet">
+
+    <title>Snakeswap</title>
+</head>
+
+<body class="m-auto">
+    <header class="grid grid-cols-1 lg:grid-cols-3 py-6 px-4">
+        <a href="#"><img src="./img/snake-logo.svg" alt="Snakeswap logo" width="24px" height="24px"></a>
+
+        <div class="bg-white rounded-2xl flex justify-center gap-4 py-2 px-4">
+            <div><a href="" class="font-semibold text-gray-600 hover:text-black">SWAP</a></div>
+            <div><a href="https://info.uniswap.org/#/" class="font-semibold text-gray-600 hover:text-black"
+                    target="_blank">CHARTS<sup>&#10138;</sup></a></div>
+        </div>
+
+        <div class="flex gap-2 justify-center lg:justify-end">
+            <div class="bg-white py-2 px-2 rounded-2xl flex gap-2 font-semibold">
+                <img src="./img/ethereumpng.png" alt="" width="24px" height="24px">
+                Ethereum
+            </div>
+            <div class="bg-green-200 py-2 px-2 rounded-2xl flex gap-2 font-semibold border-2 border-green-400">
+                <a href="#" class="text-green-800">Connect Wallet</a>
+            </div>
+            <button class="bg-white rounded-2xl py-2 px-2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="Menu__StyledMenuIcon-sc-1s7r6xc-0 eQiQbQ">
+                    <path
+                        d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z"
+                        stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path
+                        d="M19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12C18 12.5523 18.4477 13 19 13Z"
+                        stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path
+                        d="M5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12C4 12.5523 4.44772 13 5 13Z"
+                        stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="flex md:justify-center mx-4 md:mx-0">
+        <div class="rounded-2xl bg-white py-4 md:w-1/3 w-full">
+            <div class="px-4 pb-4">
+                SWAP
+            </div>
+            <div class="px-2">
+                <div class="pb-2">
+                    <input type="number" step="any" name="" id=""
+                        class="rounded-2xl block bg-gray-100 h-20 w-full px-2 text-4xl input_font" placeholder="0.0">
+                </div>
+                <div>
+                    <input type="number" step="any" name="" id=""
+                        class="rounded-2xl block bg-gray-100 h-20 w-full px-2 text-4xl input_font" placeholder="0.0">
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
