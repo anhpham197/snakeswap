@@ -5,6 +5,7 @@ Moralis.serverURL = "https://5kpeydhkdwa8.usemoralis.com:2053/server"; // Server
 let currentTrade = {}
 let currentSelectSide;
 let tokens
+document.getElementById("main").classList.add("hidden")
 
 async function init() {
     await Moralis.initPlugins()
@@ -12,6 +13,10 @@ async function init() {
     await listAvailableTokens()
     currentUser = Moralis.User.current();
     if (currentUser) {
+        document.getElementById("loading").classList.remove("visible")
+        document.getElementById("loading").classList.add("hidden")
+        document.getElementById("main").classList.remove("hidden")
+        document.getElementById("main").classList.add("visible")
         document.getElementById("swap_button").classList.remove("bg-green-200")
         document.getElementById("swap_button").classList.add("bg-green-300")
         document.getElementById("swap_button").disabled = false
