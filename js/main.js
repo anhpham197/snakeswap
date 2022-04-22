@@ -12,6 +12,8 @@ async function init() {
     await listAvailableTokens()
     currentUser = Moralis.User.current();
     if (currentUser) {
+        document.getElementById("swap_button").classList.remove("bg-green-200")
+        document.getElementById("swap_button").classList.add("bg-green-300")
         document.getElementById("swap_button").disabled = false
     }
 }
@@ -30,7 +32,7 @@ async function listAvailableTokens() {
         div.className = "token_row"
         let html = `
         <img class="token_list_img" src="${token.logoURI}">
-        <span class="token_list_text">${token.symbol}</span>
+        <span class="token_list_text">${token.name}</span>
         `
         div.innerHTML = html
         div.onclick = (() => { selectToken(address) })
@@ -86,16 +88,20 @@ async function getQuote() {
     }
     let amount = Number(document.getElementById("from_amount").value * 10 ** currentTrade.from.decimals)
 
-    const quote = await Moralis.Plugins.oneInch.quote({
-        chain: 'eth', // The blockchain you want to use (eth/bsc/polygon)
-        fromTokenAddress: currentTrade.from.address, // The token you want to swap
-        toTokenAddress: currentTrade.to.address, // The token you want to receive
-        amount: amount,
-    })
+    try {        
+        const quote = await Moralis.Plugins.oneInch.quote({
+            chain: 'eth', // The blockchain you want to use (eth/bsc/polygon)
+            fromTokenAddress: currentTrade.from.address, // The token you want to swap
+            toTokenAddress: currentTrade.to.address, // The token you want to receive
+            amount: amount,
+        })
+        console.log(quote)
+        document.getElementById("gas_estimate").innerHTML = quote.estimatedGas
+        document.getElementById("to_amount").value = quote.toTokenAmount / (10 ** quote.toToken.decimals)
+    } catch (error) {
+        document.getElementById('error_modal').showModal()
+    }
 
-    console.log(quote)
-    document.getElementById("gas_estimate").innerHTML = quote.estimatedGas
-    document.getElementById("to_amount").value = quote.toTokenAmount / (10 ** quote.toToken.decimals)
 }
 
 // async function trySwap() {
@@ -138,7 +144,15 @@ init()
 document.getElementById("modal_close").onclick = closeModal
 document.getElementById("from_token_select").onclick = (() => { openModal("from") })
 document.getElementById("to_token_select").onclick = (() => { openModal("to") })
-document.getElementById("login_button").onclick = login;
-
+document.getElementById("login_button").onclick = login
 document.getElementById("from_amount").onblur = getQuote
 document.getElementById("swap_button").onclick = getQuote
+var modal = document.getElementById('error_modal');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    // modal.style.display = "none";
+    modal.close()
+  }
+}
