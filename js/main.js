@@ -1,11 +1,12 @@
 Moralis.initialize("QickRvE8oOmMn7aZBTUM8BGdTeeethZaYsPNvp9D");     //Application id from Moralis.io
 Moralis.serverURL = "https://5kpeydhkdwa8.usemoralis.com:2053/server"; // Server url from Moralis.io
+// Moralis.initialize("iiuJvQxlWbXpBmBrNlbCeTFKJuQkXgCjBF6G0CIL");     //Application id from Moralis.io
+// Moralis.serverURL = "https://3sayatwjl8rz.usemoralis.com:2053/server"; // Server url from Moralis.io
 
 
 let currentTrade = {}
 let currentSelectSide;
 let tokens
-document.getElementById("main").classList.add("hidden")
 
 async function init() {
     await Moralis.initPlugins()
@@ -13,10 +14,6 @@ async function init() {
     await listAvailableTokens()
     currentUser = Moralis.User.current();
     if (currentUser) {
-        document.getElementById("loading").classList.remove("visible")
-        document.getElementById("loading").classList.add("hidden")
-        document.getElementById("main").classList.remove("hidden")
-        document.getElementById("main").classList.add("visible")
         document.getElementById("swap_button").classList.remove("bg-green-200")
         document.getElementById("swap_button").classList.add("bg-green-300")
         document.getElementById("swap_button").disabled = false
@@ -109,40 +106,44 @@ async function getQuote() {
 
 }
 
-// async function trySwap() {
-//     let address = Moralis.User.current().get("ethAddress")
-//     let amount = Number(document.getElementById("from_amount").value * 10**currentTrade.from.decimals)
-//     if (currentTrade.from.symbol !== "ETH") {
-//         const allowance = await Moralis.Plugins.oneInch.hasAllowance({
-//             chain: 'eth',
-//             fromTokenAddress: currentTrade.from.address,
-//             fromAddress: address, 
-//             amount: amount
-//         })
-//         console.log(allowance)
-//         if(!allowance) {
-//             await Moralis.Plugins.oneInch.approve({
-//                 chain: 'eth',
-//                 TokenAddress: currentTrade.from.address,
-//                 fromAddress: address
-//             })
-//         }
-//     }
-//     let receipt = await doSwap(address, amount)
-//     alert("Swap complete")
-// }
+async function trySwap() {
+    let address = Moralis.User.current().get("ethAddress")
+    let amount = Number(document.getElementById("from_amount").value * 10**currentTrade.from.decimals)
+    if (currentTrade.from.symbol !== "ETH") {
+        const allowance = await Moralis.Plugins.oneInch.hasAllowance({
+            chain: 'eth',
+            fromTokenAddress: currentTrade.from.address,
+            fromAddress: address, 
+            amount: amount
+        })
+        console.log(allowance)
+        if(!allowance) {
+            await Moralis.Plugins.oneInch.approve({
+                chain: 'eth',
+                TokenAddress: currentTrade.from.address,
+                fromAddress: address
+            })
+        }
+    }
+    try {
+        let receipt = await doSwap(address, amount)
+        console.log (receipt);
+        alert("Swap complete")
+    } catch (e) {
+        console.log("Your wallet is not enough token.")
+    }
+}
 
-// function doSwap(userAddress, amount) {
-//     return Moralis.Plugins.oneInch.swap ({
-//         chain: 'eth', // The blockchain you want to use (eth/b
-//         fromTokenAddress: currentTrade.from.address,
-//         toTokenAddress: currentTrade.to.address,
-//         amount: amount,
-//         fromAddress: userAddress,
-//         slippage: 1,
-//         });
-//         console.log (receipt);        
-// }
+function doSwap(userAddress, amount) {
+    return Moralis.Plugins.oneInch.swap ({
+        chain: 'eth', 
+        fromTokenAddress: currentTrade.from.address,
+        toTokenAddress: currentTrade.to.address,
+        amount: `${amount}`,
+        fromAddress: userAddress,
+        slippage: 1,
+        });
+}
 
 init()
 
@@ -151,7 +152,8 @@ document.getElementById("from_token_select").onclick = (() => { openModal("from"
 document.getElementById("to_token_select").onclick = (() => { openModal("to") })
 document.getElementById("login_button").onclick = login
 document.getElementById("from_amount").onblur = getQuote
-document.getElementById("swap_button").onclick = getQuote
+// document.getElementById("swap_button").onclick = getQuote
+document.getElementById("swap_button").onclick = trySwap
 var modal = document.getElementById('error_modal');
 
 // When the user clicks anywhere outside of the modal, close it
